@@ -37,3 +37,15 @@ npm set-script prepare "husky install"
 npx husky add .husky/pre-commit "npx lint-staged"
 
 ```
+
+![](Images/2022-03-19-23-16-07.png)
+
+## 配置 commitlint
+
+```js
+yarn add --dev @commitlint/config-conventional @commitlint/cli
+
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+
+yarn husky add .husky/commit-msg 'yarn commitlint --edit $1'
+```
