@@ -1,21 +1,8 @@
 import React, { FormEvent } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+import { login } from "auth-provider";
 
 export const LoginScreen = () => {
-  const login = (params: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    }).then(async (response: Response) => {
-      if (response.ok) {
-      }
-    });
-  };
-
   // HTMLFormElement extends Element
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
