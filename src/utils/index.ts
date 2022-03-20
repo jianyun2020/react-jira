@@ -29,7 +29,7 @@ export const useMount = (callback: () => void) => {
 
 // 后面用泛型进行类型约束，暂时用anys
 // useDebounce  delay?:number 要么不传delay，要么传number
-export const useDebounce = (value: unknown, delay?: number): any => {
+export const useDebounce = <V>(value: V, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
