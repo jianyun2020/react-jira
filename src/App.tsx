@@ -1,15 +1,12 @@
 import React, { Component } from "react";
+import { useAuth } from "context/auth-context";
+import { AuthenticatedApp } from "authenticated-app";
+import { UnauthenticatedApp } from "unauthenticated-app";
 
-// import { ProjectListScreen } from "screens/project-list";
-import { LoginScreen } from "screens/login";
+function App() {
+  const { user } = useAuth();
 
-export default class App extends Component {
-  render() {
-    return (
-      <div>
-        {/* <ProjectListScreen /> */}
-        <LoginScreen />
-      </div>
-    );
-  }
+  return <div>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</div>;
 }
+
+export default App;
