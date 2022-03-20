@@ -128,4 +128,8 @@ yarn add json-server -D
 
 ![](Images/2022-03-20-10-10-08.png)
 
-## 状态提升
+状态提升：将子组件中的状态提升到父组件中
+
+![](Images/2022-03-20-11-09-27.png)
+
+用于处理传入 param 参数：`yarn add qs`
