@@ -1,3 +1,5 @@
+import React from "react";
+
 export const List = ({ list, users }) => {
   return (
     <table>

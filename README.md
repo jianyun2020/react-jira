@@ -133,3 +133,11 @@ yarn add json-server -D
 ![](Images/2022-03-20-11-09-27.png)
 
 用于处理传入 param 参数：`yarn add qs`
+
+# 用 Custom Hook 提取并复用组件代码
+
+Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
+
+我们已经认识过了`useState`和`useEffect`两个最近本的 React 自带 Hook，本节我们将会写出`useMount`和`useDebounce`两个 Custom Hook，体会它是怎么像函数一样提取组件逻辑的
+
+## 自定义 Hook，用 useDebounce 减少工程搜索请求频率
