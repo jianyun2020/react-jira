@@ -151,3 +151,5 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 # 安装开发者工具
 
 `npx imooc-jira-tool`
+
+# TS 的联合类型，Partial,Omit,Pick 和 Exclude
