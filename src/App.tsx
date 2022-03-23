@@ -8,11 +8,7 @@ import "App.css";
 function App() {
   const { user } = useAuth();
 
-  return (
-    <div className="app-wrapper">
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-    </div>
-  );
+  return <div>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</div>;
 }
 
 export default App;

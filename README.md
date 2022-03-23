@@ -153,3 +153,7 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 `npx imooc-jira-tool`
 
 # TS 的联合类型，Partial,Omit,Pick 和 Exclude
+
+# CSS in JS 方案之一：Emotion 的安装与使用
+
+`yarn add @emotion/react @emotion/styled`
