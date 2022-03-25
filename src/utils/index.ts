@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 // 判断value为0的特殊情况
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
 // 在一个函数里，改变传入的对象本身是不好的，防止原对象被污染
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   // 等价于：Object.assign({}, object)
   const result = { ...object };
 
   Object.keys(object).forEach((key) => {
-    // @ts-ignore
     const value = object[key];
-    if (isFalsy(value)) {
-      // @ts-ignore
+    if (isVoid(value)) {
       delete result[key];
     }
   });
