@@ -52,8 +52,6 @@ export const useAsync = <D>(
     return promise
       .then((data) => {
         setData(data);
-        console.log(data, "jjj");
-
         return data;
       })
       .catch((error) => {
