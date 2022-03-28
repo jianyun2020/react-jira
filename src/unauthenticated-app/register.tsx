@@ -2,11 +2,15 @@ import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
 import { LongButton } from "./index";
 
-export const LoginScreen = () => {
+export const RegisterScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { register } = useAuth();
 
   const handleSubmit = (value: { username: string; password: string }) => {
-    register(value);
+    register(value).catch(onError);
   };
 
   return (

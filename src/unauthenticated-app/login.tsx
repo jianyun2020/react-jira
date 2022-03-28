@@ -2,12 +2,23 @@ import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
 import { LongButton } from "./index";
 
-export const RegisterScreen = () => {
+export const LoginScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { login } = useAuth();
 
   // HTMLFormElement extends Element
-  const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await login(values);
+    } catch (e: any) {
+      onError(e);
+    }
   };
 
   return (
