@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { useState } from "react";
 
 interface State<D> {
@@ -13,10 +12,18 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
-export const useAsync = <D>(initailState?: State<D>) => {
+const defaultConfig = {
+  throwOnError: false,
+};
+
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultConfig
+) => {
+  const config = { ...defaultConfig, initialConfig };
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
-    ...initailState,
+    ...initialState,
   });
 
   const setData = (data: D) => {
@@ -45,10 +52,16 @@ export const useAsync = <D>(initailState?: State<D>) => {
     return promise
       .then((data) => {
         setData(data);
+        console.log(data, "jjj");
+
         return data;
       })
       .catch((error) => {
+        // catch会消化异常，如果不主动抛出，外面是接收不到异常的 return error => return Promise.reject(error)
         setError(error);
+        if (config.throwOnError) {
+          return Promise.reject(error);
+        }
         return error;
       });
   };

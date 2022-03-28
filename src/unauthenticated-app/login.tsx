@@ -1,5 +1,6 @@
 import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
+import { useAsync } from "utils/use-async";
 import { LongButton } from "./index";
 
 export const LoginScreen = ({
@@ -8,6 +9,7 @@ export const LoginScreen = ({
   onError: (error: Error) => void;
 }) => {
   const { login } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
   // HTMLFormElement extends Element
   const handleSubmit = async (values: {
@@ -15,7 +17,7 @@ export const LoginScreen = ({
     password: string;
   }) => {
     try {
-      await login(values);
+      await run(login(values));
     } catch (e: any) {
       onError(e);
     }
@@ -38,7 +40,7 @@ export const LoginScreen = ({
       </Form.Item>
 
       <Form.Item>
-        <LongButton htmlType="submit" type={"primary"}>
+        <LongButton loading={isLoading} htmlType="submit" type={"primary"}>
           登录
         </LongButton>
       </Form.Item>
