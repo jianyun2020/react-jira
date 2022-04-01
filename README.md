@@ -157,3 +157,7 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 # CSS in JS 方案之一：Emotion 的安装与使用
 
 `yarn add @emotion/react @emotion/styled`
+
+# 安装 react-router 和 react-router-dom
+
+`yarn add react-router react-router-dom`
