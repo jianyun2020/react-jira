@@ -15,6 +15,8 @@ export const ProjectListScreen = () => {
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
 
+  console.log(users);
+
   useDocumentTitle("项目列表");
 
   return (
