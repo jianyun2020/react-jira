@@ -161,3 +161,11 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 # 安装 react-router 和 react-router-dom
 
 `yarn add react-router react-router-dom`
+
+# useState 和 useRef
+
+# Can't perform a React state update on an unmounted component 错误
+
+![](Images/2022-04-12-07-15-35.png)
+
+原因，进行异步操作的时候，未等操作返回结果就卸载了组件
