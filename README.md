@@ -185,3 +185,9 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 如果你只是想避免层层传递一些属性，组件组合（component composition）有时候是一个比 context 更好的解决方案
 
 # useReducer
+
+# redux-thunk 异步中间件
+
+# redux-toolkit：将 redux 封装了一层
+
+`yarn add react-redux @reduxjs/toolkit`
