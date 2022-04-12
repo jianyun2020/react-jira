@@ -185,3 +185,9 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 如果你只是想避免层层传递一些属性，组件组合（component composition）有时候是一个比 context 更好的解决方案
 
 # useReducer
+
+# React Query
+
+类似的还有 SWR
+
+`yarn add react-query`
