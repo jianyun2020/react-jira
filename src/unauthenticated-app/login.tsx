@@ -1,5 +1,6 @@
 import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
+import { useDispatch } from "react-redux";
 import { useAsync } from "utils/use-async";
 import { LongButton } from "./index";
 
@@ -10,6 +11,7 @@ export const LoginScreen = ({
 }) => {
   const { login } = useAuth();
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
+  const dispatch = useDispatch();
 
   // HTMLFormElement extends Element
   const handleSubmit = async (values: {
