@@ -5,7 +5,7 @@ import { List } from "./list";
 import styled from "@emotion/styled";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
-import { Row, Typography } from "antd";
+import { Row } from "antd";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
 import { ButtonNoPadding, ErrorBox } from "components/lib";
 

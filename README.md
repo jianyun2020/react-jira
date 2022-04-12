@@ -191,3 +191,7 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 类似的还有 SWR
 
 `yarn add react-query`
+
+# 跨组件状态管理总结
+
+![](Images/2022-04-12-20-36-58.png)

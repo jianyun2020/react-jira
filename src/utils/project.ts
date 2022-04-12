@@ -1,16 +1,11 @@
 import { Project } from "screens/project-list/list";
-import { useCallback, useEffect } from "react";
 import { useHttp } from "utils/http";
-import { useAsync } from "utils/use-async";
-import { cleanObject } from "utils";
 import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
-import { useProjectsSearchParams } from "screens/project-list/utils";
 import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
 } from "./use-optimistic-optoins";
-import { isQueryKey } from "react-query/types/core/utils";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -37,7 +32,6 @@ export const useEditProject = (queryKey: QueryKey) => {
 // 添加项目列表
 export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (params: Partial<Project>) =>
