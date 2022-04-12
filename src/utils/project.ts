@@ -3,7 +3,14 @@ import { useCallback, useEffect } from "react";
 import { useHttp } from "utils/http";
 import { useAsync } from "utils/use-async";
 import { cleanObject } from "utils";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
+import { useProjectsSearchParams } from "screens/project-list/utils";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-optoins";
+import { isQueryKey } from "react-query/types/core/utils";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -14,9 +21,8 @@ export const useProjects = (param?: Partial<Project>) => {
 };
 
 // 编辑项目列表
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (params: Partial<Project>) =>
@@ -24,14 +30,12 @@ export const useEditProject = () => {
         method: "PATCH",
         data: params,
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
-    }
+    useEditConfig(queryKey)
   );
 };
 
 // 添加项目列表
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp();
   const queryClient = useQueryClient();
 
@@ -41,9 +45,20 @@ export const useAddProject = () => {
         data: params,
         method: "POST",
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
-    }
+    useAddConfig(queryKey)
+  );
+};
+
+// 删除项目列表
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`projects${id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };
 
