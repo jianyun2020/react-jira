@@ -3,13 +3,13 @@ import React from "react";
 import { useDocumentTitle } from "utils";
 import { useKanbans } from "utils/kanban";
 import { KanbanColumn } from "./kanban-column";
-import { useKanbansSearchParams, useProjectInUrl } from "./util";
+import { useKanbanSearchParams, useProjectInUrl } from "./util";
 
 export const KanbanScreen = () => {
   useDocumentTitle("看板列表");
 
   const { data: currentProject } = useProjectInUrl();
-  const { data: kanbans } = useKanbans(useKanbansSearchParams());
+  const { data: kanbans } = useKanbans(useKanbanSearchParams());
 
   return (
     <div>
