@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Spin } from "antd";
+import { ScreenContainer } from "components/lib";
 import React from "react";
 import { useDocumentTitle } from "utils";
 import { useKanbans } from "utils/kanban";
@@ -7,6 +8,7 @@ import { useTasks } from "utils/task";
 import { CreateKanban } from "./create-kanban";
 import { KanbanColumn } from "./kanban-column";
 import { SearchPanel } from "./search-panel";
+import { TaskModal } from "./task-modal";
 import {
   useKanbanSearchParams,
   useProjectInUrl,
@@ -24,7 +26,7 @@ export const KanbanScreen = () => {
   const isLoading = taskIsLoading || kanbanIsLoading;
 
   return (
-    <div>
+    <ScreenContainer>
       <h1>{currentProject?.name}看板</h1>
 
       <SearchPanel />
@@ -38,7 +40,8 @@ export const KanbanScreen = () => {
           <CreateKanban />
         </ColumnContainer>
       )}
-    </div>
+      <TaskModal />
+    </ScreenContainer>
   );
 };
 
