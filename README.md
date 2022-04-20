@@ -203,3 +203,13 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 安装类型提示
 
 `yarn add @types/react-beautiful-dnd`
+
+# 自动化测试
+
+## 分类
+
+- 单元测试：传统单元测试、组件测试、hook 测试
+- 集成测试
+- e2e 测试
+
+`yarn add @testing-library/react-hooks msw`
