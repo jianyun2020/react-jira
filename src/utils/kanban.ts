@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Kanban } from "types/kanban";
 import { useHttp } from "./http";
-import { useAddConfig } from "./use-optimistic-optoins";
+import { useAddConfig, useDeleteConfig } from "./use-optimistic-optoins";
 
 // 获取看板列表的Hook
 export const useKanbans = (param?: Partial<Kanban>) => {
@@ -22,5 +22,17 @@ export const useAddKanban = (queryKey: QueryKey) => {
         method: "POST",
       }),
     useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`kanbans/${id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };

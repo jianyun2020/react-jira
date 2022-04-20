@@ -1,7 +1,11 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Task } from "types/task";
 import { useHttp } from "./http";
-import { useAddConfig, useEditConfig } from "./use-optimistic-optoins";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-optoins";
 
 // 获取看板列表的Hook
 export const useTasks = (param?: Partial<Task>) => {
@@ -45,5 +49,17 @@ export const useEditTask = (queryKey: QueryKey) => {
         data: params,
       }),
     useEditConfig(queryKey)
+  );
+};
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`tasks/${id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };
