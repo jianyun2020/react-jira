@@ -195,3 +195,11 @@ Custom Hook 是 React 中最新也是最优秀的组件代码复用方案
 # 跨组件状态管理总结
 
 ![](Images/2022-04-12-20-36-58.png)
+
+# 拖拽功能
+
+`yarn add react-beautiful-dnd`
+
+安装类型提示
+
+`yarn add @types/react-beautiful-dnd`
