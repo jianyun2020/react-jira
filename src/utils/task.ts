@@ -6,7 +6,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderConfig,
+  useReorderTaskConfig,
 } from "./use-optimistic-optoins";
 
 // 获取看板列表的Hook
@@ -74,5 +74,5 @@ export const useReorderTask = (querykey: QueryKey) => {
       data: params,
       method: "POST",
     });
-  }, useReorderConfig(querykey));
+  }, useReorderTaskConfig(querykey));
 };

@@ -3,15 +3,15 @@ import { Kanban } from "types/kanban";
 import { useTaskTypes } from "utils/task-type";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
+import styled from "@emotion/styled";
+import { Button, Card, Dropdown, Menu, Modal } from "antd";
+import { useTasks } from "utils/task";
 import {
   useKanbansQueryKey,
   useTasksModal,
   useTasksSearchParams,
-} from "./util";
-import { useTasks } from "utils/task";
-import styled from "@emotion/styled";
-import { Button, Card, Dropdown, Menu, Modal } from "antd";
-import { CreateTask } from "./create-task";
+} from "screens/kanban/util";
+import { CreateTask } from "screens/kanban/create-task";
 import { Task } from "types/task";
 import { Mark } from "components/mark";
 import { useDeleteKanban } from "utils/kanban";
@@ -24,17 +24,16 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   if (!name) {
     return null;
   }
-  return <img src={name === "task" ? taskIcon : bugIcon} />;
+  return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} />;
 };
 
 const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTasksModal();
   const { name: keyword } = useTasksSearchParams();
-
   return (
     <Card
       onClick={() => startEdit(task.id)}
-      style={{ cursor: "pointer", marginBottom: "0.5rem" }}
+      style={{ marginBottom: "0.5rem", cursor: "pointer" }}
       key={task.id}
     >
       <p>
@@ -51,16 +50,19 @@ export const KanbanColumn = React.forwardRef<
 >(({ kanban, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
-
   return (
-    <Container ref={ref} {...props}>
+    <Container {...props} ref={ref}>
       <Row between={true}>
         <h3>{kanban.name}</h3>
         <More kanban={kanban} key={kanban.id} />
       </Row>
-      <TaskContainer>
-        <Drop type="ROW" direction="vertical" droppableId={String(kanban.id)}>
-          <DropChild>
+      <TasksContainer>
+        <Drop
+          type={"ROW"}
+          direction={"vertical"}
+          droppableId={String(kanban.id)}
+        >
+          <DropChild style={{ minHeight: "1rem" }}>
             {tasks?.map((task, taskIndex) => (
               <Drag
                 key={task.id}
@@ -74,9 +76,8 @@ export const KanbanColumn = React.forwardRef<
             ))}
           </DropChild>
         </Drop>
-
         <CreateTask kanbanId={kanban.id} />
-      </TaskContainer>
+      </TasksContainer>
     </Container>
   );
 });
@@ -119,7 +120,7 @@ export const Container = styled.div`
   margin-right: 1.5rem;
 `;
 
-const TaskContainer = styled.div`
+const TasksContainer = styled.div`
   overflow: scroll;
   flex: 1;
 
