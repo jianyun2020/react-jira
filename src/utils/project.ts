@@ -1,5 +1,5 @@
 import { useHttp } from "utils/http";
-import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
+import { QueryKey, useMutation, useQuery } from "react-query";
 import {
   useAddConfig,
   useDeleteConfig,
