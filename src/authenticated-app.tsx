@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Button, Dropdown, Menu } from "antd";
 import { ButtonNoPadding, Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
 import { ReactComponent as SoftWareLogo } from "assets/jiraSoftware.svg";
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/projet";
 import { resetRoute } from "utils";
