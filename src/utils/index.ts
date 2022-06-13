@@ -24,7 +24,7 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
-  }, [callback]);
+  }, []);
 };
 
 // 后面用泛型进行类型约束，暂时用anys
