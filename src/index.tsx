@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { server } from "./mock/server";
+import { AppProviders } from "context";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AppProviders>
+        <App />
+      </AppProviders>
     </QueryClientProvider>
   </React.StrictMode>
 );
