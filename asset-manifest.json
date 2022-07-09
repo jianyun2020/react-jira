@@ -1,19 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.436fd2a8.css",
-    "main.js": "/static/js/main.332f4d83.js",
-    "static/media/left.svg": "/static/media/left.e74de3ec0611913bda20171ee936a782.svg",
-    "static/media/right.svg": "/static/media/right.b423a6cf7075ce3f4b85d573f75a00c3.svg",
-    "static/media/jiraSoftware.svg": "/static/media/jiraSoftware.aabe495361647bc02cd89e591cde467f.svg",
-    "static/media/logo.svg": "/static/media/logo.6c866125ba1762184fc3d95cbe79c069.svg",
-    "static/media/bug.svg": "/static/media/bug.b07008e244493d701e3cef474d446125.svg",
-    "static/media/task.svg": "/static/media/task.4f5b3a16c478ba982b9ec93a4a994268.svg",
+    "main.css": "/static/css/main.713a23f3.css",
+    "main.js": "/static/js/main.68b1e37d.js",
+    "static/js/787.76a0c5bf.chunk.js": "/static/js/787.76a0c5bf.chunk.js",
     "index.html": "/index.html",
-    "main.436fd2a8.css.map": "/static/css/main.436fd2a8.css.map",
-    "main.332f4d83.js.map": "/static/js/main.332f4d83.js.map"
+    "main.713a23f3.css.map": "/static/css/main.713a23f3.css.map",
+    "main.68b1e37d.js.map": "/static/js/main.68b1e37d.js.map",
+    "787.76a0c5bf.chunk.js.map": "/static/js/787.76a0c5bf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.436fd2a8.css",
-    "static/js/main.332f4d83.js"
+    "static/css/main.713a23f3.css",
+    "static/js/main.68b1e37d.js"
   ]
 }
