@@ -1,6 +1,7 @@
 export class ServerError extends Error {
   status = 200;
 
+  // eslint-disable-next-line no-useless-constructor
   constructor(message) {
     super(message);
   }
@@ -24,12 +25,12 @@ export const search = (list, query) => {
       }
 
       if (Array.isArray(queryValue)) {
-        return queryValue.find((value) => value == item[queryKey]);
+        return queryValue.find((value) => value === item[queryKey]);
       } else {
         if (queryValue === undefined || queryValue === "") {
           return true;
         }
-        return item[queryKey] == queryValue;
+        return item[queryKey] === queryValue;
       }
     });
   });

@@ -1,6 +1,5 @@
 import { userHandlers } from "./account";
 import { getRestHandlers } from "./rest-handlers";
-import { match } from "node-match-path";
 import {
   epicDB,
   kanbanDB,
@@ -11,18 +10,6 @@ import {
   userDB,
 } from "../data/rest";
 import { reorderHandlers } from "./reorder-handlers";
-
-function ls(key, defaultVal) {
-  const lsVal = window.localStorage.getItem(key);
-  let val;
-  if (lsVal) {
-    val = Number(lsVal);
-  }
-  return Number.isFinite(val) ? val : defaultVal;
-}
-
-const sleep = (t = ls("__jira_min_request_time__", 200)) =>
-  new Promise((resolve) => setTimeout(resolve, t));
 
 export const handlers = [
   ...userHandlers,

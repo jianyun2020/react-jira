@@ -9,6 +9,7 @@ import {
   userDB,
 } from "./data/rest";
 
+// eslint-disable-next-line no-extend-native
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };
