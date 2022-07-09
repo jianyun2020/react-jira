@@ -1,21 +1,33 @@
-import "./wdyr";
 import React from "react";
-import ReactDOM from "react-dom";
-import { loadServer, DevTools } from "jira-dev-tool";
-import "antd/dist/antd.less";
-// 务必在jira-dev-tool之后引入
-
+import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
-import { AppProviders } from "context";
+import reportWebVitals from "./reportWebVitals";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { server } from "./mock/server";
 
-loadServer(() => {
-  ReactDOM.render(
-    <React.StrictMode>
-      <DevTools />
-      <AppProviders>
-        <App />
-      </AppProviders>
-    </React.StrictMode>,
-    document.getElementById("root")
-  );
-});
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+
+server.start();
+// server.start({
+//   quiet: true,
+//   serviceWorker: {
+//     url: "/mockServiceWorker.js",
+//   },
+// });
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

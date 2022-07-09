@@ -1,119 +1,38 @@
-import React from "react";
-import { Dropdown, Menu, Modal, Table, TableProps } from "antd";
-import dayjs from "dayjs";
-import { Link } from "react-router-dom";
-import { Pin } from "components/pin";
-import { useDeleteProject, useEditProject } from "utils/project";
-import { ButtonNoPadding } from "components/lib";
-import { useProjectModal, useProjectsQueryKey } from "./utils";
-import { Project } from "../../types/projects";
-import { User } from "../../types/user";
+import { User } from "./search-panel";
 
-interface ListProps extends TableProps<Project> {
-  users: User[];
-  refresh?: () => void;
+interface Project {
+  id: string;
+  name: string;
+  personId: string;
+  pin: boolean;
+  organization: string;
 }
 
-export const List = ({ users, ...props }: ListProps) => {
-  const { mutate } = useEditProject(useProjectsQueryKey());
-
-  // 函数柯力化
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
-
+interface ListProps {
+  list: Project[];
+  users: User[];
+}
+export const List = ({ list, users }: ListProps) => {
   return (
-    <Table
-      rowKey={"id"}
-      pagination={false}
-      columns={[
-        {
-          title: <Pin checked={true} disabled={true} />,
-          render(value, project) {
-            return (
-              <Pin
-                checked={project.pin}
-                onCheckedChange={pinProject(project.id)}
-              />
-            );
-          },
-        },
-        {
-          title: "名称",
-          sorter: (a, b) => a.name.localeCompare(b.name),
-          render(value, project) {
-            return <Link to={`projects/${project.id}`}>{project.name}</Link>;
-          },
-        },
-        {
-          title: "部门",
-          dataIndex: "organization",
-        },
-        {
-          title: "负责人",
-          render(value, project) {
-            return (
-              <span>
-                {users.find((user) => user.id === project.personId)?.name ||
-                  "未知"}
-              </span>
-            );
-          },
-        },
-        {
-          title: "创建时间",
-          render(value, project) {
-            return (
-              <span>
-                {project.created
-                  ? dayjs(project.created).format("YYYY-MM-DD")
-                  : "无"}
-              </span>
-            );
-          },
-        },
-        {
-          render(value, project) {
-            return <More project={project} />;
-          },
-        },
-      ]}
-      {...props}
-    />
-  );
-};
-
-const More = ({ project }: { project: Project }) => {
-  const { startEdit } = useProjectModal();
-  const editProject = (id: number) => () => startEdit(id);
-  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
-
-  const confirmDeleteProject = (id: number) => {
-    Modal.confirm({
-      title: "确定删除这个项目吗？",
-      content: "点击确定删除",
-      okText: "确定",
-      onOk() {
-        deleteProject({ id });
-      },
-    });
-  };
-
-  return (
-    <Dropdown
-      overlay={
-        <Menu>
-          <Menu.Item onClick={editProject(project.id)} key={"edit"}>
-            编辑
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => confirmDeleteProject(project.id)}
-            key={"delete"}
-          >
-            删除
-          </Menu.Item>
-        </Menu>
-      }
-    >
-      <ButtonNoPadding type="link">...</ButtonNoPadding>
-    </Dropdown>
+    <table>
+      <thead>
+        <tr>
+          <th>名称</th>
+          <th>负责人</th>
+        </tr>
+      </thead>
+      <tbody>
+        {list.map((project) => (
+          <tr key={project.id}>
+            <td>{project.name}</td>
+            {/* undefined.name 会报错，所以用可选链操作符 ? 防止报错 */}
+            <td>
+              {users.find((user) => user.id === project.personId)?.name ||
+                "未知"}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };

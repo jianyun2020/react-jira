@@ -1,40 +1,47 @@
-import React from "react";
-import { useDebounce, useDocumentTitle } from "utils";
+import { useState, useEffect } from "react";
+import * as qs from "qs";
+
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import styled from "@emotion/styled";
-import { useProjects } from "utils/project";
-import { useUsers } from "utils/user";
-import { Row } from "antd";
-import { useProjectModal, useProjectsSearchParams } from "./utils";
-import { ButtonNoPadding, ErrorBox } from "components/lib";
+import { cleanObject, useDebounce, useMount } from "utils";
 
 export const ProjectListScreen = () => {
-  useDocumentTitle("项目列表");
-  const [param, setParam] = useProjectsSearchParams();
-  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
-  const { data: users } = useUsers();
+  const [param, setParam] = useState({
+    name: "", // 搜索框的值
+    personId: "", // 下拉选项的id
+  });
 
-  const { open } = useProjectModal();
+  const [users, setUsers] = useState([]); // 存储下拉菜单的用户列表
+
+  const [list, setList] = useState([]); // 存储获取的表单数据
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  const debouncedParam = useDebounce(param, 200);
+  // 当用户输入或选择下拉框的时候，要请求列表
+  useEffect(() => {
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
+    ).then(async (response) => {
+      if (response.ok) {
+        setList(await response.json());
+      }
+    });
+  }, [debouncedParam, apiUrl]);
+
+  // 初始化users列表
+  useMount(() => {
+    fetch(`${apiUrl}/users`).then(async (response) => {
+      if (response.ok) {
+        setUsers(await response.json());
+      }
+    });
+  });
 
   return (
-    <Container>
-      <Row justify="space-between">
-        <h1>项目列表</h1>
-        <ButtonNoPadding type="link" onClick={open}>
-          创建项目
-        </ButtonNoPadding>
-      </Row>
-
-      <SearchPanel param={param} setParam={setParam} users={users || []} />
-      {error ? <ErrorBox error={error} /> : null}
-      <List loading={isLoading} users={users || []} dataSource={list || []} />
-    </Container>
+    <div>
+      <SearchPanel users={users} param={param} setParam={setParam} />
+      <List list={list} users={users} />
+    </div>
   );
 };
-
-ProjectListScreen.whyDidYouRender = false;
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;
