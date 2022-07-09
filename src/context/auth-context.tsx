@@ -21,6 +21,7 @@ const AuthContext = createContext<
 // 用于dev-tool显示
 AuthContext.displayName = "AuthContext";
 
+// 用于登录状态持久化
 const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useMount(() => {
+    // 初始化user
     bootstrapUser().then(setUser);
   });
 
