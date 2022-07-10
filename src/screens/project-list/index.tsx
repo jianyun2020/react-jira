@@ -6,13 +6,10 @@ import styled from "@emotion/styled";
 import { useProjects } from "utils/useProject";
 import { useUsers } from "utils/user";
 import { Typography } from "antd";
-import { Outlet } from "react-router";
+import { useUrlQueryParam } from "utils/url";
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: "", // 搜索框的值
-    personId: "", // 下拉选项的id
-  });
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 200);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
@@ -30,6 +27,8 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
