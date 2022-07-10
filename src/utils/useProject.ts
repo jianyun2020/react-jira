@@ -12,6 +12,5 @@ export const useProjects = (param?: Partial<Project>) => {
     run(client("projects", { data: cleanObject(param || {}) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
-
   return result;
 };
