@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // 判断除0以外的false值
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
+
 // 在一个函数里，改变传入的对象本身是不好的
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   // 等价于 Object.assign({}, object)
   const result = { ...object };
   Object.keys(result).forEach((key) => {
-    // @ts-ignore
     const value = result[key];
-    if (isFalsy(value)) {
-      // @ts-ignore
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -52,4 +53,20 @@ export const useArray = <T>(initialArray: T[]) => {
     },
     clear: () => setValue([]),
   };
+};
+
+/**
+ * 返回组件的挂载状态，如果还没挂载或者已经卸载，返回false；反之，返回true
+ */
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+
+  return mountedRef;
 };

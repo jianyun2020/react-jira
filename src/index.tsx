@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { server } from "./mock/server";
 import { AppProviders } from "context";
+import "./App.css";
+import "antd/dist/antd.less";
 
 const queryClient = new QueryClient();
 
