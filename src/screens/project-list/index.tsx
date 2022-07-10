@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import { useProjects } from "utils/useProject";
 import { useUsers } from "utils/user";
 import { Typography } from "antd";
+import { Outlet } from "react-router";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
