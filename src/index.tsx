@@ -8,6 +8,7 @@ import { server } from "./mock/server";
 import { AppProviders } from "context";
 import "./App.css";
 import "antd/dist/antd.less";
+import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -17,9 +18,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AppProviders>
-        <App />
-      </AppProviders>
+      <BrowserRouter>
+        <AppProviders>
+          <App />
+        </AppProviders>
+      </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>
 );

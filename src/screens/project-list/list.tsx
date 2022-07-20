@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { TableProps } from "antd/es/table";
 // react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from "react-router-dom";
-import { useEditProject } from "utils/project";
+import { useEditProject, useProjectModal } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
 
@@ -27,16 +27,14 @@ interface ListProps extends TableProps<Project> {
 
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
+  const { open: openModal } = useProjectModal();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(props.refresh);
 
   const items = [
     {
       label: (
-        <ButtonNoPadding
-          type="link"
-          onClick={() => props.setProjectModalOpen(true)}
-        >
+        <ButtonNoPadding type="link" onClick={openModal}>
           编辑
         </ButtonNoPadding>
       ),
