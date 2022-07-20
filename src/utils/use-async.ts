@@ -91,7 +91,7 @@ export const useAsync = <D>(
           return error;
         });
     },
-    [config.throwOnError, setData, setError, safeDispatch]
+    [safeDispatch, mountedRef, setData, setError, config.throwOnError]
   );
 
   return {
