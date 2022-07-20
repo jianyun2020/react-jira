@@ -5,9 +5,10 @@ import dayjs from "dayjs";
 import { TableProps } from "antd/es/table";
 // react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from "react-router-dom";
-import { useEditProject, useProjectModal } from "utils/project";
+import { useEditProject } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
+import { useProjectModal } from "./util";
 
 // TODO 把所有ID都改成number类型
 export interface Project {
@@ -27,20 +28,10 @@ interface ListProps extends TableProps<Project> {
 
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
-  const { open: openModal } = useProjectModal();
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(props.refresh);
+  const { startEdit } = useProjectModal();
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const editProject = (id: number) => () => startEdit(id);
 
-  const items = [
-    {
-      label: (
-        <ButtonNoPadding type="link" onClick={openModal}>
-          编辑
-        </ButtonNoPadding>
-      ),
-      key: "edit",
-    },
-  ];
   return (
     <Table
       rowKey={"id"}
@@ -94,7 +85,16 @@ export const List = ({ users, ...props }: ListProps) => {
         {
           render(value, project) {
             return (
-              <Dropdown overlay={<Menu items={items} />}>
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+                      编辑
+                    </Menu.Item>
+                    <Menu.Item key={"delete"}>删除</Menu.Item>
+                  </Menu>
+                }
+              >
                 <ButtonNoPadding type="link">...</ButtonNoPadding>
               </Dropdown>
             );
