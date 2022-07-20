@@ -13,38 +13,67 @@ import {
   Outlet,
 } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
+import { useState } from "react";
+import { ProjectPopover } from "components/project-popover";
+import { ProjectModal } from "screens/project-list/project-modal";
 
 export const AuthenticatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+
   return (
-    <div>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/projects" element={<ProjectListScreen />}></Route>
-            <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
-          </Route>
-        </Routes>
-      </Router>
-    </div>
+    <Container>
+      <Main>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={<Layout setProjectModalOpen={setProjectModalOpen} />}
+            >
+              <Route
+                path="/projects"
+                element={
+                  <ProjectListScreen
+                    setProjectModalOpen={setProjectModalOpen}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/projects/:projectId/*"
+                element={<ProjectScreen />}
+              />
+            </Route>
+          </Routes>
+        </Router>
+      </Main>
+
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+      />
+    </Container>
   );
 };
 
-const Layout = () => {
+const Layout = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
   return (
     <>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={props.setProjectModalOpen} />
       <Outlet />
     </>
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <Header between={true}>
-      <HeaderLeft>
+      <HeaderLeft gap={true}>
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
 
       <Link to={"projects"}>项目列表</Link>
@@ -76,6 +105,12 @@ const User = () => {
   );
 };
 
+const Container = styled.div`
+  display: grid;
+  grid-template-rows: 6rem 1fr;
+  height: 100vh;
+`;
+
 const Header = styled(Row)`
   padding: 3.2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
@@ -84,3 +119,4 @@ const Header = styled(Row)`
 
 const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
+const Main = styled.main``;
