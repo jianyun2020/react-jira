@@ -10,6 +10,8 @@ export const KanbanScreen = () => {
   const { data: currentProject } = useProjectInUrl();
   const { data: kanbans } = useKanbansInProject();
 
+  console.log("kanbans", kanbans);
+
   return (
     <div>
       <h1>{currentProject?.name}</h1>
