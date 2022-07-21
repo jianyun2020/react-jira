@@ -6,7 +6,7 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { Button } from "antd";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { ErrorBox, Row } from "components/lib";
+import { ErrorBox, Row, ScreenContainer } from "components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
@@ -17,7 +17,7 @@ export const ProjectListScreen = () => {
   const { data: users } = useUsers();
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row marginBottom={2} between={true}>
         <h1>项目列表</h1>
         <Button onClick={openModal}>创建项目</Button>
@@ -30,12 +30,8 @@ export const ProjectListScreen = () => {
         dataSource={list || []}
         users={users || []}
       />
-    </Container>
+    </ScreenContainer>
   );
 };
 
 ProjectListScreen.whyDidYouRender = false;
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;
