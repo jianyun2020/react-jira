@@ -3,22 +3,12 @@ import { User } from "screens/project-list/search-panel";
 import { Dropdown, Menu, Modal, Table } from "antd";
 import dayjs from "dayjs";
 import { TableProps } from "antd/es/table";
-// react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from "react-router-dom";
 import { useDeleteProject, useEditProject } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal, useProjectsQueryKey } from "./util";
-
-// TODO 把所有ID都改成number类型
-export interface Project {
-  id: number;
-  name: string;
-  personId: number;
-  pin: boolean;
-  organization: string;
-  created: number;
-}
+import { Project } from "../../types/project";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
@@ -28,9 +18,7 @@ interface ListProps extends TableProps<Project> {
 
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject(useProjectsQueryKey());
-  const { startEdit } = useProjectModal();
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
-  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
