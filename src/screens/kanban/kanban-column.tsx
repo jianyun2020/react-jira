@@ -16,6 +16,7 @@ import { useDeleteKanban } from "utils/kanban";
 import { Row } from "components/lib";
 import { Mark } from "components/mark";
 import { CreateTask } from "./create-task";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -36,9 +37,24 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
         <More kanban={kanban} />
       </Row>
       <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard task={task} />
-        ))}
+        <Drop
+          type={"ROW"}
+          direction={"vertical"}
+          droppableId={String(kanban.id)}
+        >
+          <DropChild>
+            {tasks?.map((task, taskIndex) => (
+              <Drag
+                key={task.id}
+                index={taskIndex}
+                draggableId={"task" + task.id}
+              >
+                <TaskCard task={task} />
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
+
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
