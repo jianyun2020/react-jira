@@ -24,7 +24,13 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   if (!name) {
     return null;
   }
-  return <img alt="task-icon" src={name === "task" ? taskIcon : bugIcon} />;
+  return (
+    <img
+      style={{ width: "16px", height: "16px" }}
+      alt="task-icon"
+      src={name === "task" ? taskIcon : bugIcon}
+    />
+  );
 };
 
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {

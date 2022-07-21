@@ -30,7 +30,6 @@ export const ProjectScreen = () => {
           <Route index element={<KanbanScreen />} />
           <Route path={"kanban"} element={<KanbanScreen />} />
           <Route path={"epic"} element={<EpicScreen />} />
-          <Route index element={<EpicScreen />} />
         </Routes>
       </Main>
       <Outlet />
