@@ -1,6 +1,7 @@
 import * as auth from "auth-provider";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 import React, { createContext, ReactNode, useContext } from "react";
+import { useQueryClient } from "react-query";
 import { User } from "types/user";
 import { useMount } from "utils";
 import { http } from "utils/http";
@@ -45,6 +46,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     run,
     setData: setUser,
   } = useAsync<User | null>();
+
+  const queryClient = useQueryClient();
+
   useMount(() => {
     // 初始化user
     run(bootstrapUser());
@@ -52,7 +56,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const logout = () =>
+    auth.logout().then(() => {
+      setUser(null);
+      queryClient.clear();
+    });
 
   if (isIdle || isLoading) {
     return <FullPageLoading />;
