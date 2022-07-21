@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "screens/project-list/search-panel";
+import { User } from "types/user";
 import { Dropdown, Menu, Modal, Table } from "antd";
 import dayjs from "dayjs";
 import { TableProps } from "antd/es/table";
