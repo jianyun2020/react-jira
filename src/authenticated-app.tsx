@@ -21,7 +21,6 @@ export const AuthenticatedApp = () => {
           </Route>
         </Routes>
       </Main>
-
       <ProjectModal />
     </Container>
   );
