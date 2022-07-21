@@ -1,30 +1,28 @@
-import styled from "@emotion/styled";
 import React from "react";
 import { useDocumentTitle } from "utils";
-import { KanbanColumn } from "./kanban-column";
-import { useKanbansInProject, useProjectInUrl } from "./util";
+import { useKanbanSearchParams, useProjectInUrl } from "screens/kanban/util";
+import { KanbanColumn } from "screens/kanban/kanban-column";
+import styled from "@emotion/styled";
+import { useKanbans } from "utils/kanban";
 
 export const KanbanScreen = () => {
   useDocumentTitle("看板列表");
 
   const { data: currentProject } = useProjectInUrl();
-  const { data: kanbans } = useKanbansInProject();
-
-  console.log("kanbans", kanbans);
-
+  const { data: kanbans } = useKanbans(useKanbanSearchParams());
   return (
     <div>
-      <h1>{currentProject?.name}</h1>
-      <ColumnContainer>
+      <h1>{currentProject?.name}看板</h1>
+      <ColumnsContainer>
         {kanbans?.map((kanban) => (
           <KanbanColumn kanban={kanban} key={kanban.id} />
         ))}
-      </ColumnContainer>
+      </ColumnsContainer>
     </div>
   );
 };
 
-const ColumnContainer = styled.div`
+const ColumnsContainer = styled.div`
   display: flex;
   overflow: hidden;
   margin-right: 2rem;
