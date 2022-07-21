@@ -23,14 +23,13 @@ export const search = (list, query) => {
       if (queryKey === "name") {
         return item.name.includes(queryValue);
       }
-
       if (Array.isArray(queryValue)) {
         return queryValue.find((value) => value === item[queryKey]);
       } else {
         if (queryValue === undefined || queryValue === "") {
           return true;
         }
-        return item[queryKey] === queryValue;
+        return String(item[queryKey]) === queryValue;
       }
     });
   });

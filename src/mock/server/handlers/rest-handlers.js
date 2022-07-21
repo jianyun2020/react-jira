@@ -23,6 +23,7 @@ export const getRestHandlers = (endpoint, db) => {
     rest.get(`${apiUrl}/${endpoint}`, async (req, res, ctx) => {
       const user = await getUser(req);
       const params = req.url.searchParams;
+
       const queryResult = db.queryByOwnerId(
         user.id,
         Object.fromEntries(params)
