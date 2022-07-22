@@ -48,7 +48,7 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
           direction={"vertical"}
           droppableId={String(kanban.id)}
         >
-          <DropChild>
+          <DropChild style={{ minHeight: "1rem" }}>
             {tasks?.map((task, taskIndex) => (
               <Drag
                 key={task.id}
