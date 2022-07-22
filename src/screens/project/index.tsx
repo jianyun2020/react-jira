@@ -1,9 +1,10 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router";
+import { KanbanScreen } from "screens/kanban";
+import { EpicScreen } from "screens/epic";
 import styled from "@emotion/styled";
 import { Menu } from "antd";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
-import { EpicScreen } from "screens/epic";
-import { KanbanScreen } from "screens/kanban";
 
 const useRouteType = () => {
   const units = useLocation().pathname.split("/");
@@ -12,11 +13,10 @@ const useRouteType = () => {
 
 export const ProjectScreen = () => {
   const routeType = useRouteType();
-
   return (
     <Container>
       <Aside>
-        <Menu mode="inline" selectedKeys={[routeType]}>
+        <Menu mode={"inline"} selectedKeys={[routeType]}>
           <Menu.Item key={"kanban"}>
             <Link to={"kanban"}>看板</Link>
           </Menu.Item>
@@ -27,12 +27,13 @@ export const ProjectScreen = () => {
       </Aside>
       <Main>
         <Routes>
-          <Route index element={<KanbanScreen />} />
+          {/*projects/:projectId/kanban*/}
           <Route path={"kanban"} element={<KanbanScreen />} />
+          {/*projects/:projectId/epic*/}
           <Route path={"epic"} element={<EpicScreen />} />
+          <Route index element={<KanbanScreen />} />
         </Routes>
       </Main>
-      <Outlet />
     </Container>
   );
 };
@@ -51,4 +52,5 @@ const Main = styled.div`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
+  width: 100%;
 `;

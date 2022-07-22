@@ -1,6 +1,5 @@
 import React from "react";
 import { Kanban } from "types/kanban";
-import { Task } from "types/task";
 import { useTaskTypes } from "utils/task-type";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
@@ -11,11 +10,12 @@ import {
   useKanbansQueryKey,
   useTasksModal,
   useTasksSearchParams,
-} from "./util";
+} from "screens/kanban/util";
+import { CreateTask } from "screens/kanban/create-task";
+import { Task } from "types/task";
+import { Mark } from "components/mark";
 import { useDeleteKanban } from "utils/kanban";
 import { Row } from "components/lib";
-import { Mark } from "components/mark";
-import { CreateTask } from "./create-task";
 import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
@@ -24,23 +24,37 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   if (!name) {
     return null;
   }
+  return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} />;
+};
+
+const TaskCard = ({ task }: { task: Task }) => {
+  const { startEdit } = useTasksModal();
+  const { name: keyword } = useTasksSearchParams();
   return (
-    <img
-      style={{ width: "16px", height: "16px" }}
-      alt="task-icon"
-      src={name === "task" ? taskIcon : bugIcon}
-    />
+    <Card
+      onClick={() => startEdit(task.id)}
+      style={{ marginBottom: "0.5rem", cursor: "pointer" }}
+      key={task.id}
+    >
+      <p>
+        <Mark keyword={keyword} name={task.name} />
+      </p>
+      <TaskTypeIcon id={task.typeId} />
+    </Card>
   );
 };
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<
+  HTMLDivElement,
+  { kanban: Kanban }
+>(({ kanban, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
-    <Container>
+    <Container {...props} ref={ref}>
       <Row between={true}>
         <h3>{kanban.name}</h3>
-        <More kanban={kanban} />
+        <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
         <Drop
@@ -55,35 +69,18 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
                 index={taskIndex}
                 draggableId={"task" + task.id}
               >
-                <TaskCard task={task} />
+                <div>
+                  <TaskCard key={task.id} task={task} />
+                </div>
               </Drag>
             ))}
           </DropChild>
         </Drop>
-
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
-};
-
-const TaskCard = ({ task }: { task: Task }) => {
-  const { startEdit } = useTasksModal();
-  const { name: keyword } = useTasksSearchParams();
-
-  return (
-    <Card
-      onClick={() => startEdit(task.id)}
-      style={{ marginBottom: "0.5rem", cursor: "pointer" }}
-      key={task.id}
-    >
-      <p>
-        <Mark keyword={keyword} name={task.name} />
-      </p>
-      <TaskTypeIcon id={task.typeId} />
-    </Card>
-  );
-};
+});
 
 const More = ({ kanban }: { kanban: Kanban }) => {
   const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());

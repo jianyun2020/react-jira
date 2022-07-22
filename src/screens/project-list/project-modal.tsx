@@ -1,10 +1,13 @@
-import styled from "@emotion/styled";
+import React, { useEffect } from "react";
 import { Button, Drawer, Form, Input, Spin } from "antd";
-import { ErrorBox } from "components/lib";
-import { UserSelect } from "components/use-select";
-import { useEffect } from "react";
+import {
+  useProjectModal,
+  useProjectsQueryKey,
+} from "screens/project-list/util";
+import { UserSelect } from "components/user-select";
 import { useAddProject, useEditProject } from "utils/project";
-import { useProjectModal, useProjectsQueryKey } from "./util";
+import { ErrorBox } from "components/lib";
+import styled from "@emotion/styled";
 
 export const ProjectModal = () => {
   const { projectModalOpen, close, editingProject, isLoading } =
@@ -35,17 +38,22 @@ export const ProjectModal = () => {
   }, [editingProject, form]);
 
   return (
-    <Drawer onClose={closeModal} visible={projectModalOpen} width={"100%"}>
+    <Drawer
+      forceRender={true}
+      onClose={closeModal}
+      visible={projectModalOpen}
+      width={"100%"}
+    >
       <Container>
         {isLoading ? (
-          <Spin size="large" />
+          <Spin size={"large"} />
         ) : (
           <>
             <h1>{title}</h1>
             <ErrorBox error={error} />
             <Form
               form={form}
-              layout="vertical"
+              layout={"vertical"}
               style={{ width: "40rem" }}
               onFinish={onFinish}
             >
@@ -64,14 +72,16 @@ export const ProjectModal = () => {
               >
                 <Input placeholder={"请输入部门名"} />
               </Form.Item>
-              <Form.Item label="负责人" name={"personId"}>
-                <UserSelect defaultOptionName="负责人" />
+
+              <Form.Item label={"负责人"} name={"personId"}>
+                <UserSelect defaultOptionName={"负责人"} />
               </Form.Item>
+
               <Form.Item style={{ textAlign: "right" }}>
                 <Button
                   loading={mutateLoading}
                   type={"primary"}
-                  htmlType="submit"
+                  htmlType={"submit"}
                 >
                   提交
                 </Button>

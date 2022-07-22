@@ -1,20 +1,22 @@
+import { useHttp } from "utils/http";
 import { QueryKey, useMutation, useQuery } from "react-query";
-import { Project } from "types/project";
 import { Task } from "types/task";
-import { useHttp } from "./http";
 import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
   useReorderTaskConfig,
 } from "utils/use-optimistic-options";
-import { SortProps } from "./kanban";
+import { Project } from "types/project";
+import { SortProps } from "utils/kanban";
+import { useDebounce } from "utils/index";
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
+  const debouncedParam = { ...param, name: useDebounce(param?.name, 200) };
 
-  return useQuery<Task[]>(["tasks", param], () =>
-    client("tasks", { data: param })
+  return useQuery<Task[]>(["tasks", debouncedParam], () =>
+    client("tasks", { data: debouncedParam })
   );
 };
 

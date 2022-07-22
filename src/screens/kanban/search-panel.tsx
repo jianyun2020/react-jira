@@ -1,14 +1,14 @@
-import { Button, Input } from "antd";
-import { Row } from "components/lib";
-import { TaskTypeSelect } from "components/task-type-select";
-import { UserSelect } from "components/use-select";
+import React from "react";
+import { useTasksSearchParams } from "screens/kanban/util";
 import { useSetUrlSearchParam } from "utils/url";
-import { useTasksSearchParams } from "./util";
+import { Row } from "components/lib";
+import { Button, Input } from "antd";
+import { UserSelect } from "components/user-select";
+import { TaskTypeSelect } from "components/task-type-select";
 
 export const SearchPanel = () => {
   const searchParams = useTasksSearchParams();
   const setSearchParams = useSetUrlSearchParam();
-
   const reset = () => {
     setSearchParams({
       typeId: undefined,
@@ -22,7 +22,7 @@ export const SearchPanel = () => {
     <Row marginBottom={4} gap={true}>
       <Input
         style={{ width: "20rem" }}
-        placeholder="任务名"
+        placeholder={"任务名"}
         value={searchParams.name}
         onChange={(evt) => setSearchParams({ name: evt.target.value })}
       />

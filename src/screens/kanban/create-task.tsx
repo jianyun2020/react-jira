@@ -1,7 +1,7 @@
-import { Card, Input } from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAddTask } from "utils/task";
-import { useProjectIdInUrl, useTasksQueryKey } from "./util";
+import { useProjectIdInUrl, useTasksQueryKey } from "screens/kanban/util";
+import { Card, Input } from "antd";
 
 export const CreateTask = ({ kanbanId }: { kanbanId: number }) => {
   const [name, setName] = useState("");
@@ -16,6 +16,7 @@ export const CreateTask = ({ kanbanId }: { kanbanId: number }) => {
   };
 
   const toggle = () => setInputMode((mode) => !mode);
+
   useEffect(() => {
     if (!inputMode) {
       setName("");

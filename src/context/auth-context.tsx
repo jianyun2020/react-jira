@@ -1,30 +1,17 @@
+import React, { ReactNode, useCallback } from "react";
 import * as auth from "auth-provider";
-import { FullPageErrorFallback, FullPageLoading } from "components/lib";
-import React, { createContext, ReactNode, useContext } from "react";
-import { useQueryClient } from "react-query";
-import { User } from "types/user";
-import { useMount } from "utils";
 import { http } from "utils/http";
+import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import { User } from "types/user";
+import { useQueryClient } from "react-query";
 
 interface AuthForm {
   username: string;
   password: string;
 }
 
-const AuthContext = createContext<
-  | {
-      user: User | null;
-      login: (form: AuthForm) => Promise<void>;
-      register: (form: AuthForm) => Promise<void>;
-      logout: () => Promise<void>;
-    }
-  | undefined
->(undefined);
-// 用于dev-tool显示
-AuthContext.displayName = "AuthContext";
-
-// 用于登录状态持久化
 const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
@@ -32,9 +19,19 @@ const bootstrapUser = async () => {
     const data = await http("me", { token });
     user = data.user;
   }
-
   return user;
 };
+
+const AuthContext = React.createContext<
+  | {
+      user: User | null;
+      register: (form: AuthForm) => Promise<void>;
+      login: (form: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
+    }
+  | undefined
+>(undefined);
+AuthContext.displayName = "AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
@@ -46,14 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     run,
     setData: setUser,
   } = useAsync<User | null>();
-
   const queryClient = useQueryClient();
 
-  useMount(() => {
-    // 初始化user
-    run(bootstrapUser());
-  });
-
+  // point free
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () =>
@@ -61,6 +53,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       queryClient.clear();
     });
+
+  useMount(
+    useCallback(() => {
+      run(bootstrapUser());
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   if (isIdle || isLoading) {
     return <FullPageLoading />;
@@ -79,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = React.useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth必须在AuthProvider中使用");
   }

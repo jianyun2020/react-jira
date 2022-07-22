@@ -1,13 +1,12 @@
 import { QueryKey, useQueryClient } from "react-query";
+import { reorder } from "utils/reorder";
 import { Task } from "types/task";
-import { reorder } from "./reorder";
 
 export const useConfig = (
   queryKey: QueryKey,
   callback: (target: any, old?: any[]) => any[]
 ) => {
   const queryClient = useQueryClient();
-
   return {
     onSuccess: () => queryClient.invalidateQueries(queryKey),
     async onMutate(target: any) {
@@ -18,7 +17,7 @@ export const useConfig = (
       return { previousItems };
     },
     onError(error: any, newItem: any, context: any) {
-      queryClient.setQueriesData(queryKey, context.previousItems);
+      queryClient.setQueryData(queryKey, context.previousItems);
     },
   };
 };
@@ -28,7 +27,6 @@ export const useDeleteConfig = (queryKey: QueryKey) =>
     queryKey,
     (target, old) => old?.filter((item) => item.id !== target.id) || []
   );
-
 export const useEditConfig = (queryKey: QueryKey) =>
   useConfig(
     queryKey,
@@ -37,9 +35,8 @@ export const useEditConfig = (queryKey: QueryKey) =>
         item.id === target.id ? { ...item, ...target } : item
       ) || []
   );
-
 export const useAddConfig = (queryKey: QueryKey) =>
-  useConfig(queryKey, (target, old) => (old ? [...old, target] : [target]));
+  useConfig(queryKey, (target, old) => (old ? [...old, target] : []));
 
 export const useReorderKanbanConfig = (queryKey: QueryKey) =>
   useConfig(queryKey, (target, old) => reorder({ list: old, ...target }));

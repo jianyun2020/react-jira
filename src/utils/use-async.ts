@@ -1,5 +1,5 @@
 import { useCallback, useReducer, useState } from "react";
-import { useMountedRef } from "utils";
+import { useMountedRef } from "utils/index";
 
 interface State<D> {
   error: Error | null;
@@ -37,9 +37,6 @@ export const useAsync = <D>(
       ...initialState,
     }
   );
-
-  const mountedRef = useMountedRef();
-
   const safeDispatch = useSafeDispatch(dispatch);
   // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
   // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
@@ -79,9 +76,7 @@ export const useAsync = <D>(
       safeDispatch({ stat: "loading" });
       return promise
         .then((data) => {
-          if (mountedRef.current) {
-            setData(data);
-          }
+          setData(data);
           return data;
         })
         .catch((error) => {
@@ -91,7 +86,7 @@ export const useAsync = <D>(
           return error;
         });
     },
-    [safeDispatch, mountedRef, setData, setError, config.throwOnError]
+    [config.throwOnError, setData, setError, safeDispatch]
   );
 
   return {

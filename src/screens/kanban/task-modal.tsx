@@ -1,10 +1,10 @@
-import { Button, Form, Input, Modal } from "antd";
-import { useForm } from "antd/lib/form/Form";
-import { TaskTypeSelect } from "components/task-type-select";
-import { UserSelect } from "components/use-select";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { useTasksModal, useTasksQueryKey } from "screens/kanban/util";
 import { useDeleteTask, useEditTask } from "utils/task";
-import { useTasksModal, useTasksQueryKey } from "./util";
+import { Button, Form, Input, Modal } from "antd";
+import { UserSelect } from "components/user-select";
+import { TaskTypeSelect } from "components/task-type-select";
+import { EpicSelect } from "components/epic-select";
 
 const layout = {
   labelCol: { span: 8 },
@@ -12,7 +12,7 @@ const layout = {
 };
 
 export const TaskModal = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const { editingTaskId, editingTask, close } = useTasksModal();
   const { mutateAsync: editTask, isLoading: editLoading } = useEditTask(
     useTasksQueryKey()
@@ -40,6 +40,7 @@ export const TaskModal = () => {
       },
     });
   };
+
   useEffect(() => {
     form.setFieldsValue(editingTask);
   }, [form, editingTask]);
@@ -62,6 +63,9 @@ export const TaskModal = () => {
           rules={[{ required: true, message: "请输入任务名" }]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item label={"任务组"} name={"epicId"}>
+          <EpicSelect defaultOptionName={"任务组"} />
         </Form.Item>
         <Form.Item label={"经办人"} name={"processorId"}>
           <UserSelect defaultOptionName={"经办人"} />
